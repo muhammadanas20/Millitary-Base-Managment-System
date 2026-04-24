@@ -39,17 +39,33 @@ class MenuSystem{
     void assignWeaponToPersonnel();
     void unassignWeaponFromPersonnel();
     void viewPersonnelWeapons();
+    void searchPersonnelByID();
+    void searchPersonnelByName();
+    void updatePersonnelDetails();
 
     //logistics management
     void addWeapon();
     void addSupplies();
     void deleteEquipment();
     void displayAllEquipment();
+    void checkInventory();
+    void updateWeaponAmmunition();
+    void performWeaponMaintenance();
+    void issueAmmunition();
+    void checkExpiredSupplies();
+    void replenishSupplies();
+    void consumeSupplies();
+    void searchEquipmentByID();
 
     //operations management
     void createOperation();
     void deleteOperation();
     void displayAllOperations();
+    void assignPersonnelToOperation();
+    void assignEquipmentToOperation();
+    void updateOperationStatus();
+    void searchOperation();
+    void generateOperationReport();
 
     //Report
     void generatePersonnelReport();

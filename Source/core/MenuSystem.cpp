@@ -135,9 +135,12 @@ void MenuSystem::displayPersonnelMenu() {
     cout << "3. Delete Personnel" << endl;
     cout << "4. Display All Personnel" << endl;
     cout << "5. Promote Officer" << endl;
-    cout << "6. Assign Weapon to Personnel" << endl;
-    cout << "7. Unassign Weapon from Personnel" << endl;
-    cout << "8. View Personnel Weapons" << endl;
+    cout << "6. Search Personnel by ID" << endl;
+    cout << "7. Search Personnel by Name" << endl;
+    cout << "8. Update Personnel Details" << endl;
+    cout << "9. Assign Weapon to Personnel" << endl;
+    cout << "10. Unassign Weapon from Personnel" << endl;
+    cout << "11. View Personnel Weapons" << endl;
     cout << "0. Back to Main Menu" << endl;
     cout << "\nEnter your choice: ";
 }
@@ -167,12 +170,21 @@ void MenuSystem::handlePersonnelMenu(int choice) {
             promoteOfficer();
             break;
         case 6:
-            assignWeaponToPersonnel();
+            searchPersonnelByID();
             break;
         case 7:
-            unassignWeaponFromPersonnel();
+            searchPersonnelByName();
             break;
         case 8:
+            updatePersonnelDetails();
+            break;
+        case 9:
+            assignWeaponToPersonnel();
+            break;
+        case 10:
+            unassignWeaponFromPersonnel();
+            break;
+        case 11:
             viewPersonnelWeapons();
             break;
         case 0:
@@ -191,6 +203,14 @@ void MenuSystem::displayLogisticsMenu() {
     cout << "2. Add Supplies" << endl;
     cout << "3. Delete Equipment" << endl;
     cout << "4. Display All Equipment" << endl;
+    cout << "5. Check Inventory" << endl;
+    cout << "6. Update Weapon Ammunition" << endl;
+    cout << "7. Perform Weapon Maintenance" << endl;
+    cout << "8. Issue Ammunition to Personnel" << endl;
+    cout << "9. Check Expired Supplies" << endl;
+    cout << "10. Refillup Supplies" << endl;
+    cout << "11. Consume Supplies" << endl;
+    cout << "12. Search Equipment by ID" << endl;
     cout << "0. Back to Main Menu" << endl;
     cout << "\nEnter your choice: ";
 }
@@ -216,6 +236,32 @@ void MenuSystem::handleLogisticsMenu(int choice) {
         case 4:
             displayAllEquipment();
             break;
+        case 5:
+            checkInventory();
+            break;
+        case 6:
+            updateWeaponAmmunition();
+            break;
+        case 7:
+            performWeaponMaintenance();
+            break;
+        case 8:
+            issueAmmunition();
+            break;
+        case 9:
+            checkExpiredSupplies();
+            break;
+        case 10:
+            replenishSupplies();
+            break;
+        case 11:
+            consumeSupplies();
+            break;
+        case 12:
+            searchEquipmentByID();
+            break;
+        case 0:
+            break;
         default:
             cout << "Invalid choice." << endl;
     }
@@ -229,6 +275,11 @@ void MenuSystem::displayOperationsMenu() {
     cout << "\n1. Create Operation" << endl;
     cout << "2. Delete Operation" << endl;
     cout << "3. Display All Operations" << endl;
+    cout << "4. Assign Personnel to Operation" << endl;
+    cout << "5. Assign Equipment to Operation" << endl;
+    cout << "6. Update Operation Status" << endl;
+    cout << "7. Search Operation" << endl;
+    cout << "8. Generate Operation Report" << endl;
     cout << "0. Back to Main Menu" << endl;
     cout << "\nEnter your choice: ";
 }
@@ -250,6 +301,23 @@ void MenuSystem::handleOperationsMenu(int choice) {
             break;
         case 3:
             displayAllOperations();
+            break;
+        case 4:
+            assignPersonnelToOperation();
+            break;
+        case 5:
+            assignEquipmentToOperation();
+            break;
+        case 6:
+            updateOperationStatus();
+            break;
+        case 7:
+            searchOperation();
+            break;
+        case 8:
+            generateOperationReport();
+            break;
+        case 0:
             break;
         default:
             cout << "Invalid choice." << endl;
@@ -1086,5 +1154,705 @@ void MenuSystem::viewPersonnelWeapons() {
                 cout << Utils::createString(60, '-') << endl;
             }
         }
+    }
+}
+
+// NEW PERSONNEL FUNCTIONS
+
+void MenuSystem::searchPersonnelByID() {
+    cout << "\n=== SEARCH PERSONNEL BY ID ===" << endl;
+    cout << "Enter personnel ID: ";
+    int id;
+    cin >> id;
+    cin.ignore();
+    
+    Person* person = findPersonnelByID(id);
+    if (person) {
+        cout << "\n" << Utils::createString(60, '=') << endl;
+        person->display();
+        cout << Utils::createString(60, '=') << endl;
+    } else {
+        cout << "\nPersonnel not found." << endl;
+    }
+}
+
+void MenuSystem::searchPersonnelByName() {
+    cout << "\n=== SEARCH PERSONNEL BY NAME ===" << endl;
+    cout << "Enter personnel name (full or partial): ";
+    string searchName;
+    getline(cin, searchName);
+    
+    vector<Person*> results;
+    
+    for (auto& officer : officers) {
+        if (officer->getName().find(searchName) != string::npos) {
+            results.push_back(officer);
+        }
+    }
+    
+    for (auto& contractor : contractors) {
+        if (contractor->getName().find(searchName) != string::npos) {
+            results.push_back(contractor);
+        }
+    }
+    
+    if (results.empty()) {
+        cout << "\nNo personnel found with name containing: " << searchName << endl;
+    } else {
+        cout << "\n" << Utils::createString(60, '=') << endl;
+        cout << "SEARCH RESULTS: Found " << results.size() << " personnel" << endl;
+        cout << Utils::createString(60, '=') << endl;
+        for (auto& person : results) {
+            person->display();
+            cout << endl;
+        }
+    }
+}
+
+void MenuSystem::updatePersonnelDetails() {
+    cout << "\n=== UPDATE PERSONNEL DETAILS ===" << endl;
+    cout << "Enter personnel ID: ";
+    int id;
+    cin >> id;
+    cin.ignore();
+    
+    Person* person = findPersonnelByID(id);
+    if (!person) {
+        cout << "\nPersonnel not found." << endl;
+        return;
+    }
+    
+    cout << "\nUpdating: " << person->getName() << endl;
+    cout << "\nWhat would you like to update?" << endl;
+    cout << "1. Salary" << endl;
+    cout << "2. Rank" << endl;
+    cout << "3. Current Position" << endl;
+    cout << "Enter choice: ";
+    int choice;
+    cin >> choice;
+    cin.ignore();
+    
+    try {
+        if (choice == 1) {
+            cout << "Current Salary: " << person->getSalary() << endl;
+            cout << "Enter new salary: ";
+            double newSalary;
+            cin >> newSalary;
+            cin.ignore();
+            person->setSalary(newSalary);
+            auditLog->addEntry("UPDATE", "Personnel", id, "Salary updated to " + to_string(newSalary));
+            cout << "\nSalary updated successfully." << endl;
+        } else if (choice == 2) {
+            cout << "Current Rank: " << person->getRank() << endl;
+            cout << "Enter new rank: ";
+            string newRank;
+            getline(cin, newRank);
+            person->setRank(newRank);
+            auditLog->addEntry("UPDATE", "Personnel", id, "Rank updated to " + newRank);
+            cout << "\nRank updated successfully." << endl;
+        } else if (choice == 3) {
+            cout << "Current Position: " << person->getCurrentPosition() << endl;
+            cout << "Enter new position: ";
+            string newPos;
+            getline(cin, newPos);
+            person->setCurrentPosition(newPos);
+            auditLog->addEntry("UPDATE", "Personnel", id, "Position updated to " + newPos);
+            cout << "\nPosition updated successfully." << endl;
+        } else {
+            cout << "\nInvalid choice." << endl;
+        }
+    } catch (const exception& e) {
+        cout << "\nError: " << e.what() << endl;
+    }
+}
+
+// NEW LOGISTICS FUNCTIONS
+
+void MenuSystem::checkInventory() {
+    cout << "\n=== INVENTORY CHECK ===" << endl;
+    cout << Utils::createString(60, '=') << endl;
+    
+    double totalWeaponValue = 0;
+    double totalSupplyValue = 0;
+    
+    cout << "\n--- WEAPONS INVENTORY ---" << endl;
+    if (weapons.empty()) {
+        cout << "No weapons in inventory." << endl;
+    } else {
+        for (const auto& weapon : weapons) {
+            double value = weapon->getQuantity() * weapon->getUnitCost();
+            totalWeaponValue += value;
+            cout << "\nID: " << weapon->getID() << " | Name: " << weapon->getName()
+                 << " | Qty: " << weapon->getQuantity() << " | Cost: Rs" << fixed << setprecision(2) 
+                 << value << endl;
+        }
+    }
+    
+    cout << "\n--- SUPPLIES INVENTORY ---" << endl;
+    if (supplies.empty()) {
+        cout << "No supplies in inventory." << endl;
+    } else {
+        for (const auto& supply : supplies) {
+            double value = supply->getQuantity() * supply->getUnitCost();
+            totalSupplyValue += value;
+            cout << "\nID: " << supply->getID() << " | Name: " << supply->getName()
+                 << " | Qty: " << supply->getQuantity() << " | Cost: Rs" << fixed << setprecision(2) 
+                 << value << endl;
+        }
+    }
+    
+    cout << "\n" << Utils::createString(60, '=') << endl;
+    cout << "TOTAL WEAPONS VALUE: Rs" << fixed << setprecision(2) << totalWeaponValue << endl;
+    cout << "TOTAL SUPPLIES VALUE: Rs" << fixed << setprecision(2) << totalSupplyValue << endl;
+    cout << "TOTAL INVENTORY VALUE: Rs" << fixed << setprecision(2) << (totalWeaponValue + totalSupplyValue) << endl;
+    cout << Utils::createString(60, '=') << endl;
+}
+
+void MenuSystem::updateWeaponAmmunition() {
+    cout << "\n=== UPDATE WEAPON AMMUNITION ===" << endl;
+    
+    if (weapons.empty()) {
+        cout << "No weapons available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Weapons ---" << endl;
+    for (const auto& weapon : weapons) {
+        cout << "ID: " << weapon->getID() << " | Name: " << weapon->getName() 
+             << " | Current Ammo: " << weapon->getCurrentAmmunition() << endl;
+    }
+    
+    cout << "\nEnter weapon ID: ";
+    int weaponID;
+    cin >> weaponID;
+    cin.ignore();
+    
+    Weapon* weapon = findWeaponByID(weaponID);
+    if (!weapon) {
+        cout << "\nWeapon not found." << endl;
+        return;
+    }
+    
+    cout << "\nCurrent Ammunition: " << weapon->getCurrentAmmunition() << endl;
+    cout << "1. Add Ammunition" << endl;
+    cout << "2. Remove Ammunition" << endl;
+    cout << "Enter choice: ";
+    int choice;
+    cin >> choice;
+    cin.ignore();
+    
+    cout << "Enter amount: ";
+    int amount;
+    cin >> amount;
+    cin.ignore();
+    
+    try {
+        if (choice == 1) {
+            weapon->addAmmunition(amount);
+            auditLog->addEntry("UPDATE", "Weapon", weaponID, "Ammunition added: " + to_string(amount) + " rounds");
+            cout << "\nAmmunition added successfully." << endl;
+        } else if (choice == 2) {
+            weapon->removeAmmunition(amount);
+            auditLog->addEntry("UPDATE", "Weapon", weaponID, "Ammunition removed: " + to_string(amount) + " rounds");
+            cout << "\nAmmunition removed successfully." << endl;
+        } else {
+            cout << "\nInvalid choice." << endl;
+        }
+    } catch (const exception& e) {
+        cout << "\nError: " << e.what() << endl;
+    }
+}
+
+void MenuSystem::performWeaponMaintenance() {
+    cout << "\n=== PERFORM WEAPON MAINTENANCE ===" << endl;
+    
+    if (weapons.empty()) {
+        cout << "No weapons available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Weapons ---" << endl;
+    for (const auto& weapon : weapons) {
+        cout << "ID: " << weapon->getID() << " | Name: " << weapon->getName() << endl;
+    }
+    
+    cout << "\nEnter weapon ID: ";
+    int weaponID;
+    cin >> weaponID;
+    cin.ignore();
+    
+    Weapon* weapon = findWeaponByID(weaponID);
+    if (!weapon) {
+        cout << "\nWeapon not found." << endl;
+        return;
+    }
+    
+    try {
+        weapon->performMaintenance();
+        auditLog->addEntry("UPDATE", "Weapon", weaponID, "Maintenance performed on " + weapon->getName());
+        cout << "\nMaintenance completed successfully." << endl;
+    } catch (const exception& e) {
+        cout << "\nError: " << e.what() << endl;
+    }
+}
+
+void MenuSystem::issueAmmunition() {
+    cout << "\n=== ISSUE AMMUNITION ===" << endl;
+    
+    if (weapons.empty()) {
+        cout << "No weapons available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Weapons ---" << endl;
+    for (const auto& weapon : weapons) {
+        cout << "ID: " << weapon->getID() << " | Name: " << weapon->getName() 
+             << " | Available: " << weapon->getCurrentAmmunition() << " rounds" << endl;
+    }
+    
+    cout << "\nEnter weapon ID: ";
+    int weaponID;
+    cin >> weaponID;
+    cin.ignore();
+    
+    Weapon* weapon = findWeaponByID(weaponID);
+    if (!weapon) {
+        cout << "\nWeapon not found." << endl;
+        return;
+    }
+    
+    cout << "\nEnter quantity to issue: ";
+    int quantity;
+    cin >> quantity;
+    cin.ignore();
+    
+    if (quantity > weapon->getCurrentAmmunition()) {
+        cout << "\nInsufficient ammunition. Available: " << weapon->getCurrentAmmunition() << endl;
+        return;
+    }
+    
+    try {
+        weapon->removeAmmunition(quantity);
+        auditLog->addEntry("ISSUE", "Weapon", weaponID, "Ammunition issued: " + to_string(quantity) + " rounds");
+        cout << "\nAmmunition issued successfully." << endl;
+    } catch (const exception& e) {
+        cout << "\nError: " << e.what() << endl;
+    }
+}
+
+void MenuSystem::checkExpiredSupplies() {
+    cout << "\n=== CHECK EXPIRED SUPPLIES ===" << endl;
+    
+    if (supplies.empty()) {
+        cout << "No supplies in inventory." << endl;
+        return;
+    }
+    
+    vector<Supplies*> expiredItems;
+    
+    for (auto& supply : supplies) {
+        if (supply->getExpirationDate() < "2026-04-24") {
+            expiredItems.push_back(supply);
+        }
+    }
+    
+    cout << "\n" << Utils::createString(60, '=') << endl;
+    
+    if (expiredItems.empty()) {
+        cout << "No expired supplies found." << endl;
+    } else {
+        cout << "EXPIRED SUPPLIES: " << expiredItems.size() << " items" << endl;
+        cout << Utils::createString(60, '=') << endl;
+        for (auto& supply : expiredItems) {
+            cout << "\nID: " << supply->getID() << endl;
+            cout << "Name: " << supply->getName() << endl;
+            cout << "Type: " << supply->getSupplyType() << endl;
+            cout << "Expiration Date: " << supply->getExpirationDate() << endl;
+            cout << "Quantity: " << supply->getQuantity() << endl;
+        }
+    }
+    cout << "\n" << Utils::createString(60, '=') << endl;
+}
+
+void MenuSystem::replenishSupplies() {
+    cout << "\n=== REPLENISH SUPPLIES ===" << endl;
+    
+    if (supplies.empty()) {
+        cout << "No supplies available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Supplies ---" << endl;
+    for (const auto& supply : supplies) {
+        cout << "ID: " << supply->getID() << " | Name: " << supply->getName() 
+             << " | Current Qty: " << supply->getQuantity() << endl;
+    }
+    
+    cout << "\nEnter supplies ID: ";
+    int supplyID;
+    cin >> supplyID;
+    cin.ignore();
+    
+    Supplies* supply = nullptr;
+    for (auto& s : supplies) {
+        if (s->getID() == supplyID) {
+            supply = s;
+            break;
+        }
+    }
+    
+    if (!supply) {
+        cout << "\nSupplies not found." << endl;
+        return;
+    }
+    
+    cout << "Enter quantity to add: ";
+    int quantity;
+    cin >> quantity;
+    cin.ignore();
+    
+    try {
+        supply->replenishSupply(quantity);
+        auditLog->addEntry("UPDATE", "Supplies", supplyID, "Supplies replenished: " + to_string(quantity) + " units");
+        cout << "\nSupplies replenished successfully." << endl;
+    } catch (const exception& e) {
+        cout << "\nError: " << e.what() << endl;
+    }
+}
+
+void MenuSystem::consumeSupplies() {
+    cout << "\n=== CONSUME SUPPLIES ===" << endl;
+    
+    if (supplies.empty()) {
+        cout << "No supplies available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Supplies ---" << endl;
+    for (const auto& supply : supplies) {
+        cout << "ID: " << supply->getID() << " | Name: " << supply->getName() 
+             << " | Current Qty: " << supply->getQuantity() << endl;
+    }
+    
+    cout << "\nEnter supplies ID: ";
+    int supplyID;
+    cin >> supplyID;
+    cin.ignore();
+    
+    Supplies* supply = nullptr;
+    for (auto& s : supplies) {
+        if (s->getID() == supplyID) {
+            supply = s;
+            break;
+        }
+    }
+    
+    if (!supply) {
+        cout << "\nSupplies not found." << endl;
+        return;
+    }
+    
+    cout << "Enter quantity to consume: ";
+    int quantity;
+    cin >> quantity;
+    cin.ignore();
+    
+    if (quantity > supply->getQuantity()) {
+        cout << "\nInsufficient quantity. Available: " << supply->getQuantity() << endl;
+        return;
+    }
+    
+    try {
+        supply->consumeSupply(quantity);
+        auditLog->addEntry("UPDATE", "Supplies", supplyID, "Supplies consumed: " + to_string(quantity) + " units");
+        cout << "\nSupplies consumed successfully." << endl;
+    } catch (const exception& e) {
+        cout << "\nError: " << e.what() << endl;
+    }
+}
+
+void MenuSystem::searchEquipmentByID() {
+    cout << "\n=== SEARCH EQUIPMENT BY ID ===" << endl;
+    cout << "Enter equipment ID: ";
+    int id;
+    cin >> id;
+    cin.ignore();
+    
+    for (auto& weapon : weapons) {
+        if (weapon->getID() == id) {
+            cout << "\n" << Utils::createString(60, '=') << endl;
+            weapon->display();
+            cout << Utils::createString(60, '=') << endl;
+            return;
+        }
+    }
+    
+    for (auto& supply : supplies) {
+        if (supply->getID() == id) {
+            cout << "\n" << Utils::createString(60, '=') << endl;
+            supply->display();
+            cout << Utils::createString(60, '=') << endl;
+            return;
+        }
+    }
+    
+    cout << "\nEquipment not found." << endl;
+}
+
+// NEW OPERATIONS FUNCTIONS
+
+void MenuSystem::assignPersonnelToOperation() {
+    cout << "\n=== ASSIGN PERSONNEL TO OPERATION ===" << endl;
+    
+    if (operations.empty()) {
+        cout << "No operations available." << endl;
+        return;
+    }
+    
+    if (officers.empty() && contractors.empty()) {
+        cout << "No personnel available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Operations ---" << endl;
+    for (const auto& op : operations) {
+        cout << "ID: " << op->getID() << " | Code: " << op->getOperationCode() << endl;
+    }
+    
+    cout << "\nEnter operation ID: ";
+    int opID;
+    cin >> opID;
+    cin.ignore();
+    
+    Operation* operation = nullptr;
+    for (auto& op : operations) {
+        if (op->getID() == opID) {
+            operation = op;
+            break;
+        }
+    }
+    
+    if (!operation) {
+        cout << "\nOperation not found." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Personnel ---" << endl;
+    for (const auto& officer : officers) {
+        cout << "ID: " << officer->getID() << " | Name: " << officer->getName() << endl;
+    }
+    for (const auto& contractor : contractors) {
+        cout << "ID: " << contractor->getID() << " | Name: " << contractor->getName() << endl;
+    }
+    
+    cout << "\nEnter personnel ID: ";
+    int personID;
+    cin >> personID;
+    cin.ignore();
+    
+    Person* person = findPersonnelByID(personID);
+    if (!person) {
+        cout << "\nPersonnel not found." << endl;
+        return;
+    }
+    
+    operation->assignPersonnel(personID);
+    auditLog->addEntry("ASSIGN", "Operation", opID, "Personnel " + person->getName() + " assigned");
+    cout << "\nPersonnel assigned successfully to operation." << endl;
+}
+
+void MenuSystem::assignEquipmentToOperation() {
+    cout << "\n=== ASSIGN EQUIPMENT TO OPERATION ===" << endl;
+    
+    if (operations.empty()) {
+        cout << "No operations available." << endl;
+        return;
+    }
+    
+    if (weapons.empty() && supplies.empty()) {
+        cout << "No equipment available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Operations ---" << endl;
+    for (const auto& op : operations) {
+        cout << "ID: " << op->getID() << " | Code: " << op->getOperationCode() << endl;
+    }
+    
+    cout << "\nEnter operation ID: ";
+    int opID;
+    cin >> opID;
+    cin.ignore();
+    
+    Operation* operation = nullptr;
+    for (auto& op : operations) {
+        if (op->getID() == opID) {
+            operation = op;
+            break;
+        }
+    }
+    
+    if (!operation) {
+        cout << "\nOperation not found." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Equipment ---" << endl;
+    for (const auto& weapon : weapons) {
+        cout << "ID: " << weapon->getID() << " | Name: " << weapon->getName() << endl;
+    }
+    for (const auto& supply : supplies) {
+        cout << "ID: " << supply->getID() << " | Name: " << supply->getName() << endl;
+    }
+    
+    cout << "\nEnter equipment ID: ";
+    int equipID;
+    cin >> equipID;
+    cin.ignore();
+    
+    operation->requireEquipment(equipID);
+    auditLog->addEntry("ASSIGN", "Operation", opID, "Equipment ID " + to_string(equipID) + " assigned");
+    cout << "\nEquipment assigned successfully to operation." << endl;
+}
+
+void MenuSystem::updateOperationStatus() {
+    cout << "\n=== UPDATE OPERATION STATUS ===" << endl;
+    
+    if (operations.empty()) {
+        cout << "No operations available." << endl;
+        return;
+    }
+    
+    cout << "\n--- Available Operations ---" << endl;
+    for (const auto& op : operations) {
+        cout << "ID: " << op->getID() << " | Code: " << op->getOperationCode() 
+             << " | Status: " << op->getStatus() << endl;
+    }
+    
+    cout << "\nEnter operation ID: ";
+    int opID;
+    cin >> opID;
+    cin.ignore();
+    
+    Operation* operation = nullptr;
+    for (auto& op : operations) {
+        if (op->getID() == opID) {
+            operation = op;
+            break;
+        }
+    }
+    
+    if (!operation) {
+        cout << "\nOperation not found." << endl;
+        return;
+    }
+    
+    cout << "\nCurrent Status: " << operation->getStatus() << endl;
+    cout << "Enter new status (Planned, Active, Completed, Cancelled): ";
+    string newStatus;
+    getline(cin, newStatus);
+    
+    operation->setStatus(newStatus);
+    auditLog->addEntry("UPDATE", "Operation", opID, "Status updated to " + newStatus);
+    cout << "\nOperation status updated successfully." << endl;
+}
+
+void MenuSystem::searchOperation() {
+    cout << "\n=== SEARCH OPERATION ===" << endl;
+    cout << "\nSearch by:" << endl;
+    cout << "1. Operation ID" << endl;
+    cout << "2. Operation Code" << endl;
+    cout << "3. Operation Type" << endl;
+    cout << "4. Operation Status" << endl;
+    cout << "Enter choice: ";
+    int choice;
+    cin >> choice;
+    cin.ignore();
+    
+    vector<Operation*> results;
+    
+    if (choice == 1) {
+        cout << "Enter operation ID: ";
+        int id;
+        cin >> id;
+        cin.ignore();
+        for (auto& op : operations) {
+            if (op->getID() == id) {
+                results.push_back(op);
+            }
+        }
+    } else if (choice == 2) {
+        cout << "Enter operation code: ";
+        string code;
+        getline(cin, code);
+        for (auto& op : operations) {
+            if (op->getOperationCode() == code) {
+                results.push_back(op);
+            }
+        }
+    } else if (choice == 3) {
+        cout << "Enter operation type: ";
+        string type;
+        getline(cin, type);
+        for (auto& op : operations) {
+            if (op->getOperationType() == type) {
+                results.push_back(op);
+            }
+        }
+    } else if (choice == 4) {
+        cout << "Enter operation status: ";
+        string status;
+        getline(cin, status);
+        for (auto& op : operations) {
+            if (op->getStatus() == status) {
+                results.push_back(op);
+            }
+        }
+    } else {
+        cout << "\nInvalid choice." << endl;
+        return;
+    }
+    
+    if (results.empty()) {
+        cout << "\nNo operations found." << endl;
+    } else {
+        cout << "\n" << Utils::createString(60, '=') << endl;
+        cout << "SEARCH RESULTS: Found " << results.size() << " operation(s)" << endl;
+        cout << Utils::createString(60, '=') << endl;
+        for (auto& op : results) {
+            op->display();
+            cout << endl;
+        }
+    }
+}
+
+void MenuSystem::generateOperationReport() {
+    cout << "\n=== OPERATION REPORT ===" << endl;
+    cout << "Total Operations: " << operations.size() << endl;
+    
+    int planned = 0, active = 0, completed = 0, cancelled = 0;
+    
+    for (const auto& op : operations) {
+        string status = op->getStatus();
+        if (status == "Planned") planned++;
+        else if (status == "Active") active++;
+        else if (status == "Completed") completed++;
+        else if (status == "Cancelled") cancelled++;
+    }
+    
+    cout << "\nStatus Breakdown:" << endl;
+    cout << "  Planned: " << planned << endl;
+    cout << "  Active: " << active << endl;
+    cout << "  Completed: " << completed << endl;
+    cout << "  Cancelled: " << cancelled << endl;
+    
+    cout << "\n--- ALL OPERATIONS ---" << endl;
+    for (const auto& op : operations) {
+        cout << "\nID: " << op->getID() << endl;
+        cout << "Code: " << op->getOperationCode() << endl;
+        cout << "Type: " << op->getOperationType() << endl;
+        cout << "Status: " << op->getStatus() << endl;
+        cout << "Location: " << op->getLocation() << endl;
+        cout << Utils::createString(60, '-') << endl;
     }
 }
