@@ -26,10 +26,10 @@ The system emphasizes data integrity through a robust **Audit Log** that records
 ---
 
 ##  Core OOP Concepts Applied
-* **Encapsulation:** All data members (e.g., `salary`, `quantity`) are protected/private, accessible only through controlled getter and setter methods[cite: 41].
-* **Inheritance:** Utilizes a multi-level hierarchy where `Officer` and `Contractor` inherit from `Person`, and `Weapon` and `Supplies` inherit from `Equipment`—all deriving from a central `BaseEntity`[cite: 41].
-* **Polymorphism:** Implements function overriding and virtual functions for `display()` and `getEntityType()` to handle diverse objects through base pointers[cite: 41].
-* **Abstraction:** Employs abstract classes (e.g., `BaseEntity`, `Person`) and interfaces (`ILoggable`) to define essential behaviors without exposing implementation details[cite: 41].
+* **Encapsulation:** All data members (e.g., `salary`, `quantity`) are protected/private, accessible only through controlled getter and setter methods.
+* **Inheritance:** Utilizes a multi-level hierarchy where `Officer` and `Contractor` inherit from `Person`, and `Weapon` and `Supplies` inherit from `Equipment`—all deriving from a central `BaseEntity`.
+* **Polymorphism:** Implements function overriding and virtual functions for `display()` and `getEntityType()` to handle diverse objects through base pointers.
+* **Abstraction:** Employs abstract classes (e.g., `BaseEntity`, `Person`) and interfaces (`ILoggable`) to define essential behaviors without exposing implementation details.
 
 ---
 
@@ -59,6 +59,6 @@ To run this project in Dev-C++, follow these steps to ensure the modular files a
 ---
 
 ## Assumptions & Limitations
-* **Date Format:** The system expects dates in the `YYYY-MM-DD` format for validation[cite: 66].
-* **Persistence:** Data is saved to `.txt` or `.log` files in the execution directory; ensure the program has write permissions[cite: 66].
-* **Memory:** The system uses dynamic memory; ensure "Save & Exit" is used to trigger proper destructor cleanup[cite: 66].
+* **Date Format:** The system expects dates in the `YYYY-MM-DD` format for validation.
+* **Persistence:** Data is saved to `.txt` or `.log` files in the execution directory; ensure the program has write permissions.
+* **Memory:** The system uses dynamic memory; ensure "Save & Exit" is used to trigger proper destructor cleanup.
