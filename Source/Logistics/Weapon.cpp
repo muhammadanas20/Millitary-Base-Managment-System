@@ -49,8 +49,8 @@ void Weapon::display() const {
     cout << "Type: " << weaponType << endl;
     cout << "Caliber: " << caliber << endl;
     cout << "Quantity: " << quantity << endl;
-    cout << "Unit Cost: $" << fixed << setprecision(2) << unitCost << endl;
-    cout << "Total Value: $" << fixed << setprecision(2) << getTotalValue() << endl;
+    cout << "Unit Cost: Rs" << fixed << setprecision(2) << unitCost << endl;
+    cout << "Total Value: Rs" << fixed << setprecision(2) << getTotalValue() << endl;
     cout << "Condition: " << condition << endl;
     cout << "Location: " << location << endl;
     cout << "Ammunition: " << ammunition << "/" << magazineCapacity << " (" 

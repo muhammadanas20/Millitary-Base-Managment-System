@@ -47,7 +47,7 @@ void Person::setSalary(double newSalary) {
     }
     salary = newSalary;
     updateLastModified();
-    logActivity("Salary updated to: $" + to_string(newSalary));
+    logActivity("Salary updated to: Rs" + to_string(newSalary));
 }
 
 // Set current position
@@ -96,7 +96,7 @@ ostream& operator<<(ostream& out, const Person& person) {
         << " | Service #: " << person.serviceNumber 
         << " | Rank: " << person.rank
         << " | Position: " << person.currentPosition
-        << " | Salary: $" << fixed << person.salary;
+        << " | Salary: Rs" << fixed << person.salary;
     return out;
 }
 

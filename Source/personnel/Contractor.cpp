@@ -35,13 +35,13 @@ void Contractor::display() const {
     cout << "ID: " << getID() << endl;
     cout << "Name: " << name << endl;
     cout << "Service Number: " << serviceNumber << endl;
-    cout << "Salary: $" << fixed << setprecision(2) << salary << endl;
+    cout << "Salary: Rs" << fixed << setprecision(2) << salary << endl;
     cout << "Position: " << currentPosition << endl;
     cout << "Company: " << companyName << endl;
     cout << "Security Clearance: " << securityClearanceLevel << endl;
     cout << "Clearance Valid: " << (isClearanceValid ? "YES" : "NO") << endl;
     cout << "Contract End Date: " << contractEndDate << endl;
-    cout << "Contract Value: $" << fixed << setprecision(2) << contractValue << endl;
+    cout << "Contract Value: Rs" << fixed << setprecision(2) << contractValue << endl;
     cout << "Assigned Weapons: " << assignedWeapons.size() << endl;
     for (const auto& weapon : assignedWeapons) {
         cout << "  - " << weapon << endl;
@@ -95,7 +95,7 @@ void Contractor::setContractValue(double value) {
     }
     contractValue = value;
     updateLastModified();
-    logActivity("Contract value updated to: $" + to_string(value));
+    logActivity("Contract value updated to: Rs" + to_string(value));
 }
 
 // Validate clearance
@@ -153,6 +153,6 @@ ostream& operator<<(ostream& out, const Contractor& contractor) {
     out << "Contractor - " << static_cast<const Person&>(contractor)
         << " | Company: " << contractor.companyName
         << " | Clearance: " << contractor.securityClearanceLevel
-        << " | Value: $" << fixed << setprecision(2) << contractor.contractValue;
+        << " | Value: Rs" << fixed << setprecision(2) << contractor.contractValue;
     return out;
 }

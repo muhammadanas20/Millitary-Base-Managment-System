@@ -49,8 +49,8 @@ void Supplies::display() const {
     cout << "Code: " << equipmentCode << endl;
     cout << "Type: " << supplyType << endl;
     cout << "Quantity: " << quantity << endl;
-    cout << "Unit Cost: $" << fixed << setprecision(2) << unitCost << endl;
-    cout << "Total Value: $" << fixed << setprecision(2) << getTotalValue() << endl;
+    cout << "Unit Cost: Rs" << fixed << setprecision(2) << unitCost << endl;
+    cout << "Total Value: Rs" << fixed << setprecision(2) << getTotalValue() << endl;
     cout << "Condition: " << condition << endl;
     cout << "Location: " << location << endl;
     cout << "Expiration Date: " << expirationDate << endl;

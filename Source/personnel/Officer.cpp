@@ -30,7 +30,7 @@ void Officer::display() const {
     cout << "Name: " << name << endl;
     cout << "Service Number: " << serviceNumber << endl;
     cout << "Rank: " << rank << endl;
-    cout << "Salary: $" << fixed << setprecision(2) << salary << endl;
+    cout << "Salary: Rs" << fixed << setprecision(2) << salary << endl;
     cout << "Position: " << currentPosition << endl;
     cout << "Specialization: " << specialization << endl;
     cout << "Command Center: " << commandCenter << endl;

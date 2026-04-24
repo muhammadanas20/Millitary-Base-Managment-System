@@ -365,7 +365,7 @@ void MenuSystem::addOfficer() {
     string sNumber;
     getline(cin, sNumber);
     
-    cout << "Enter rank (Private, Corporal, Sergeant, Lieutenant, Captain, Major, Colonel, General): ";
+    cout << "Enter rank (Private, Sergeant, Lieutenant, Captain, Major, Colonel, General): ";
     string rank;
     getline(cin, rank);
     

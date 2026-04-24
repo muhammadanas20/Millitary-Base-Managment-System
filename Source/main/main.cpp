@@ -11,12 +11,12 @@ void initializeSystem() {
         Utils::printHeader("MILITARY BASE MANAGEMENT SYSTEM - INITIALIZATION");
         
         cout << "\nSystem Initialization Status:" << endl;
-        cout << "✓ Exception handling system loaded" << endl;
-        cout << "✓ Utility functions initialized" << endl;
-        cout << "✓ Personnel management module ready" << endl;
-        cout << "✓ Logistics management module ready" << endl;
-        cout << "✓ Operations management module ready" << endl;
-        cout << "✓ Audit logging system initialized" << endl;
+        cout << "Exception handling system loaded" << endl;
+        cout << "Utility functions initialized" << endl;
+        cout << "Personnel management module ready" << endl;
+        cout << "Logistics management module ready" << endl;
+        cout << "Operations management module ready" << endl;
+        cout << "Audit logging system initialized" << endl;
         cout << "\nSystem initialized successfully!" << endl;
         cout << "\nVersion: 1.0" << endl;
         cout << "Build Date: " << Utils::getCurrentDateTime() << endl;
@@ -38,9 +38,9 @@ void initializeSystem() {
 void cleanupSystem() {
     try {
         cout << "\nSystem cleanup in progress..." << endl;
-        cout << "✓ Closing database connections" << endl;
-        cout << "✓ Clearing memory buffers" << endl;
-        cout << "✓ Finalizing audit logs" << endl;
+        cout << "Closing database connections" << endl;
+        cout << "Clearing memory buffers" << endl;
+        cout << "Finalizing audit logs" << endl;
         cout << "\nSystem cleanup complete" << endl;
     }
     catch (const exception& e) {
