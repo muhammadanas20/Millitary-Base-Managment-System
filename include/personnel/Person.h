@@ -12,7 +12,7 @@ class Person : public BaseEntity {
     double salary;
     vector<string> assignedWeapons;
     string currentPosition;
-    // for dericved classs only
+    // Base constructor used by derived classes only
     Person(const string&name,const string& sNumbber,const string& r,double sal);
     public:
     virtual ~Person();
@@ -21,13 +21,13 @@ class Person : public BaseEntity {
     virtual string getPersonType() const = 0;
 
     //geters
-    string getservooceNumber() const { return serviceNumber;
+    string getserviceNumber() const { return serviceNumber;
     }
     string getRank() const { return rank;
     }
     double getSalary()const { return salary;}
     string getCurrentPosition() const { return currentPosition; }
-    vector<string> getAssigneedWeapons()const { return assignedWeapons; }
+    vector<string> getAssignedWeapons()const { return assignedWeapons; }
 
     //setters
     void setRank(const string & newRank);

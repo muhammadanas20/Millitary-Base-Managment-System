@@ -74,9 +74,9 @@ string Utils::createString(int length, char character) {
 
 void Utils::clearScreen() {
     #ifdef _WIN32
-        system("cls"); //for windows
+        system("cls"); // for Windows
     #else
-        system("clear");   // for mac
+        system("clear");   // for macOS/Linux
     #endif
 }
 
